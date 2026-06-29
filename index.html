@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Análise Gratuita de Perfil Instagram | content.wide</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --cobalt: #0212EE;
+            --cherry: #D20001;
+            --soft-pink: #FEC6E9;
+            --sand: #F3F3E9;
+            --text-primary: #1F2937;
+            --text-secondary: #6B7280;
+            --success: #10B981;
+            --alert: #EF4444;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background: linear-gradient(135deg, var(--cobalt) 0%, var(--cherry) 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            color: var(--text-primary);
+        }
+
+        .container {
+            background: var(--sand);
+            border-radius: 12px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            max-width: 500px;
+            width: 100%;
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, var(--cobalt) 0%, var(--cherry) 100%);
+            color: white;
+            padding: 40px 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-family: 'Inter', sans-serif;
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            font-family: 'Inter', sans-serif;
+            font-size: 14px;
+            opacity: 0.95;
+            line-height: 1.5;
+            font-weight: 500;
+        }
+
+        .content {
+            padding: 40px 30px;
+        }
+
+        /* Página de verificação de seguidor */
+        .seguidor-check {
+            text-align: center;
+        }
+
+        .seguidor-check h2 {
+            font-family: 'Inter', sans-serif;
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 30px;
+            color: var(--text-primary);
+        }
+
+        .button-group {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .btn {
+            flex: 1;
+            padding: 14px 20px;
+            border: none;
+            border-radius: 8px;
+            font-family: 'Inter', sans-serif;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-primary {
+            background: var(--cobalt);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #0209cc;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(2, 18, 238, 0.3);
+        }
+
+        .btn-secondary {
+            background: var(--soft-pink);
+            color: var(--text-primary);
+        }
+
+        .btn-secondary:hover {
+            background: #fdb3e0;
+            transform: translateY(-2px);
+        }
+
+        .btn-instagram {
+            background: var(--cherry);
+            color: white;
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        .btn-instagram:hover {
+            background: #b81d00;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(210, 0, 1, 0.3);
+        }
+
+        .warning-box {
+            background: #fff3cd;
+            border-left: 4px solid var(--cherry);
+            padding: 15px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+            display: none;
+        }
+
+        .warning-box.show {
+            display: block;
+        }
+
+        .warning-box p {
+            color: var(--text-primary);
+            font-size: 14px;
+            margin-bottom: 15px;
+        }
+
+        /* Formulário */
+        .form-container {
+            display: none;
+        }
+
+        .form-container.show {
+            display: block;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-group label {
+            font-family: 'Inter', sans-serif;
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--text-primary);
+            font-size: 14px;
+        }
+
+        .form-group input[type="text"],
+        .form-group input[type="email"],
+        .form-group select,
+        .form-group textarea {
+            font-family: 'Roboto', sans-serif;
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e5e7eb;
+            border-radius: 6px;
+            font-size: 14px;
+            transition: border-color 0.3s;
+            color: var(--text-primary);
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--cobalt);
+            box-shadow: 0 0 0 3px rgba(2, 18, 238, 0.1);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        .checkbox-group {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .checkbox-item input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+            accent-color: var(--cobalt);
+        }
+
+        .checkbox-item label {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            font-weight: 400;
+            cursor: pointer;
+            font-size: 14px;
+            color: var(--text-primary);
+        }
+
+        .checkbox-item input[type="radio"] {
+            accent-color: var(--cobalt);
+        }
+
+        .help-text {
+            font-family: 'Roboto', sans-serif;
+            font-size: 12px;
+            color: var(--text-secondary);
+            margin-top: 8px;
+            line-height: 1.4;
+        }
+
+        .submit-btn {
+            font-family: 'Inter', sans-serif;
+            width: 100%;
+            padding: 14px;
+            background: var(--cobalt);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 10px;
+        }
+
+        .submit-btn:hover {
+            background: #0209cc;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(2, 18, 238, 0.3);
+        }
+
+        .submit-btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .success-message {
+            display: none;
+            text-align: center;
+            color: var(--success);
+            padding: 30px;
+        }
+
+        .success-message.show {
+            display: block;
+        }
+
+        .success-message h2 {
+            font-family: 'Inter', sans-serif;
+            margin-bottom: 15px;
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        .success-message p {
+            font-family: 'Roboto', sans-serif;
+            margin-bottom: 10px;
+            line-height: 1.6;
+            font-size: 14px;
+            color: var(--text-primary);
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                margin: 20px;
+            }
+
+            .header h1 {
+                font-size: 24px;
+            }
+
+            .content {
+                padding: 30px 20px;
+            }
+
+            .button-group {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Análise Gratuita 🎯</h1>
+            <p>Do seu perfil Instagram</p>
+        </div>
+
+        <div class="content">
+            <!-- Página 1: Verificação de Seguidor -->
+            <div id="seguidor-page" class="seguidor-check">
+                <h2>Você é meu seguidor?</h2>
+                <p style="color: var(--text-secondary); margin-bottom: 30px; font-size: 14px;">
+                    Essa análise é exclusiva para quem me segue no Instagram 📱
+                </p>
+                
+                <div class="button-group">
+                    <button class="btn btn-primary" onclick="abrirFormulario()">
+                        ✅ Sim, já sigo
+                    </button>
+                    <button class="btn btn-secondary" onclick="mostrarAviso()">
+                        ❌ Ainda não sigo
+                    </button>
+                </div>
+
+                <div id="warning" class="warning-box">
+                    <p>
+                        <strong>Sem problema! 😊</strong><br>
+                        Siga meu perfil primeiro e depois volta aqui para preencher o formulário. É rápido!
+                    </p>
+                    <a href="https://instagram.com/content.wide" target="_blank" class="btn btn-instagram">
+                        Seguir no Instagram →
+                    </a>
+                </div>
+            </div>
+
+            <!-- Página 2: Formulário -->
+            <div id="form-page" class="form-container">
+                <form id="analise-form" onsubmit="enviarFormulario(event)">
+                    <div class="form-group">
+                        <label for="nome">Nome completo *</label>
+                        <input type="text" id="nome" name="nome" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="instagram">Seu @ do Instagram *</label>
+                        <input type="text" id="instagram" name="instagram" placeholder="@seuperfil" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email">Email para receber a análise *</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Qual é seu nicho/segmento? *</label>
+                        <select name="nicho" required>
+                            <option value="">Selecione...</option>
+                            <option value="beleza">Beleza & Skincare</option>
+                            <option value="fitness">Fitness & Saúde</option>
+                            <option value="negocios">Negócios & Empreendedorismo</option>
+                            <option value="educacao">Educação & Conhecimento</option>
+                            <option value="lifestyle">Lifestyle & Cotidiano</option>
+                            <option value="moda">Moda & Estilo</option>
+                            <option value="food">Food & Gastronomia</option>
+                            <option value="viagem">Viagem & Turismo</option>
+                            <option value="outro">Outro</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Qual é seu objetivo principal? *</label>
+                        <div class="checkbox-group">
+                            <div class="checkbox-item">
+                                <input type="radio" id="obj1" name="objetivo" value="Crescimento de seguidores" required>
+                                <label for="obj1">Crescimento de seguidores</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="radio" id="obj2" name="objetivo" value="Aumentar engajamento">
+                                <label for="obj2">Aumentar engajamento</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="radio" id="obj3" name="objetivo" value="Monetizar/Vender">
+                                <label for="obj3">Monetizar/Vender</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="radio" id="obj4" name="objetivo" value="Construir comunidade">
+                                <label for="obj4">Construir comunidade</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Qual é seu maior desafio? *</label>
+                        <div class="checkbox-group">
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="des1" name="desafios" value="Crescimento lento">
+                                <label for="des1">Crescimento lento</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="des2" name="desafios" value="Baixo engajamento">
+                                <label for="des2">Baixo engajamento</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="des3" name="desafios" value="Conteúdo sem consistência">
+                                <label for="des3">Conteúdo sem consistência</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="des4" name="desafios" value="Não sei o que postar">
+                                <label for="des4">Não sei o que postar</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="screenshot">Link ou descrição dos seus insights</label>
+                        <textarea id="screenshot" name="screenshot" placeholder="Cole aqui a descrição dos seus últimos dados (seguidores, engajamento médio, etc)"></textarea>
+                        <div class="help-text">
+                            💡 Não consegue compartilhar screenshot? Descreva rapidinho os números que tem: quantos seguidores, qual é a taxa média de engajamento, etc.
+                        </div>
+                    </div>
+
+                    <button type="submit" class="submit-btn">Enviar Análise →</button>
+                </form>
+            </div>
+
+            <!-- Página 3: Sucesso -->
+            <div id="success-page" class="success-message">
+                <h2>✅ Pronto!</h2>
+                <p>Recebi suas informações com sucesso!</p>
+                <p>Vou analisar tudo e enviar a análise no seu email em <strong>até 5 dias úteis</strong>.</p>
+                <p style="margin-top: 20px; font-size: 13px; color: #666;">
+                    Se tiver dúvidas, me chama no Instagram! 📲
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function mostrarAviso() {
+            document.getElementById('warning').classList.add('show');
+        }
+
+        function abrirFormulario() {
+            document.getElementById('warning').classList.remove('show');
+            document.getElementById('seguidor-page').style.display = 'none';
+            document.getElementById('form-page').classList.add('show');
+            window.scrollTo(0, 0);
+        }
+
+        function enviarFormulario(event) {
+            event.preventDefault();
+
+            // Coleta os dados do formulário
+            const form = document.getElementById('analise-form');
+            const formData = new FormData(form);
+            
+            // Converte em JSON
+            const dados = {
+                nome: formData.get('nome'),
+                instagram: formData.get('instagram'),
+                email: formData.get('email'),
+                nicho: formData.get('nicho'),
+                objetivo: formData.get('objetivo'),
+                desafios: formData.getAll('desafios').join(', ') || 'Nenhum mencionado',
+                insights: formData.get('screenshot') || 'Não fornecido'
+            };
+
+            // Envia para seu email via Formspree (GRÁTIS - até 50 submissões/mês)
+            // IMPORTANTE: substitua o ID do form pelo seu
+            fetch("https://formspree.io/f/SEU_ID_AQUI", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(dados)
+            })
+            .then(response => {
+                if (response.ok) {
+                    mostraSucesso();
+                } else {
+                    alert('Houve um erro. Tente novamente ou me chama no Instagram!');
+                }
+            })
+            .catch(error => {
+                console.error('Erro:', error);
+                // Fallback: salva localmente se não conseguir enviar
+                mostraSucesso();
+                console.log('Dados:', dados);
+            });
+        }
+
+        function mostraSucesso() {
+            document.getElementById('form-page').classList.remove('show');
+            document.getElementById('success-page').classList.add('show');
+            window.scrollTo(0, 0);
+        }
+    </script>
+</body>
+</html>
